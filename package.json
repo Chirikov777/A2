@@ -2,7 +2,7 @@
   "name": "gallery",
   "version": "1.0.0",
   "description": "Stan's Gallery - WEB322 Assignment",
-  "main": "g.js",
+  "main": "Node.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
