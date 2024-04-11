@@ -55,7 +55,7 @@ app.use(session({
 
 app.get("/", (req,res) => {
     req.ActiveSession.reset();
-    res.clearCookie(ActiveSession);
+    res.clearCookie("ActiveSession");
     res.render('loginPage');
 });
 
