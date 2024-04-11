@@ -79,15 +79,19 @@ app.post("/", (req,res) => {
 });
 
 app.post("/gallery", (req,res) => {
-    let login = req.ActiveSession.user;
-    let inputData = req.body.chooseImage;
-    if (typeof inputData === 'undefined') {
-        inputData = "The Map of Wonders";
-    }
-    let imagePath = path.join("images", (inputData+".jpg"));
-    res.render('viewData', {
+    if (req.ActiveSession.user === 'undefined') {
+        res.render('loginPage');
+    } else {
+        let login = req.ActiveSession.user;
+        let inputData = req.body.chooseImage;
+        if (typeof inputData === 'undefined') {
+            inputData = "The Map of Wonders";
+        }
+        let imagePath = path.join("images", (inputData+".jpg"));
+        res.render('viewData', {
         data: {imageList, imagePath, inputData, login}
-    });
+        });
+    }
 });
 
 const server = app.listen(HTTP_PORT, () => {
