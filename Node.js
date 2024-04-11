@@ -1,5 +1,5 @@
 /*
-WEB322 Assignment 3
+WEB322 Assignment 2
 Stan's Gallery - 7 Wonders
 Author: Stanislav Chirikov
 Student ID 074631128
@@ -8,29 +8,24 @@ Used materials: https://www.iflscience.com/the-seven-wonders-of-the-ancient-worl
 
 const express = require("express");
 const exphbs = require('express-handlebars');
-//const path = require("path");
-//const readline = require("linebyline");
-//const fs = require("fs");
+const path = require("path");
+const readline = require("linebyline");
+const fs = require("fs");
 const session = require("client-sessions");
 const randomStr = require("randomstring");
-const buy = require("./buy.js");
-const MongoClient = require("mongodb").MongoClient;
-const url = "mongodb+srv://Chirikov:OyRn7m8SN01apuRz@web322.wyskpws.mongodb.net/?retryWrites=true&w=majority&appName=WEB322";
-
 
 const HTTP_PORT = process.env.PORT || 3000;
 let imageList = [];
 let RandomString = randomStr.generate();
 
-/*
 const rl = readline("./imagelist.txt");
 rl.on("line", (line) => {
     imageList.push(line.substring(0, line.length - 4));
 })
+
 .on("error", (err) => {
     console.error(err);
 });
-*/
 
 let userData = {};
 fs.readFile("./user.json", "utf-8", (err, data) => {
@@ -60,6 +55,7 @@ app.use(session({
 
 app.get("/", (req,res) => {
     req.ActiveSession.reset();
+    res.clearCookie("ActiveSession");
     res.render('loginPage');
 });
 
@@ -84,7 +80,7 @@ app.post("/", (req,res) => {
 });
 
 app.post("/gallery", (req,res) => {
-    if (typeof req.ActiveSession.user === 'undefined') {
+    if (req.ActiveSession.user === 'undefined') {
         res.render('loginPage');
     } else {
         let login = req.ActiveSession.user;
@@ -98,8 +94,6 @@ app.post("/gallery", (req,res) => {
         });
     }
 });
-
-app.use("/buy", buy);
 
 const server = app.listen(HTTP_PORT, () => {
     console.log(`Listening on port ${HTTP_PORT}`);
