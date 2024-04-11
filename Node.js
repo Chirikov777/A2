@@ -55,7 +55,6 @@ app.use(session({
 
 app.get("/", (req,res) => {
     req.ActiveSession.reset();
-    res.clearCookie("ActiveSession");
     res.render('loginPage');
 });
 
@@ -80,7 +79,7 @@ app.post("/", (req,res) => {
 });
 
 app.post("/gallery", (req,res) => {
-    if (req.ActiveSession.user === 'undefined') {
+    if (typeof req.ActiveSession.user === 'undefined') {
         res.render('loginPage');
     } else {
         let login = req.ActiveSession.user;
